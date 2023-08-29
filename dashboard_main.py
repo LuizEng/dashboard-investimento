@@ -1,29 +1,21 @@
 import dash
-import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+import analyser
 
 app = dash.Dash(__name__)
 
+
+tempo_medio = analyser.get_tempo_medio_operacao()  
+media_text = f"Tempo Médio: {tempo_medio} minutos"
+total_operacoes = analyser.get_total_operacoes()
+media_total = f"Total de Operações: {total_operacoes} operações"
+
 app.layout = html.Div([
-    dcc.Graph(id='graph'),
-    dcc.Slider(
-        id='slider',
-        min=0,
-        max=10,
-        step=0.1,
-        value=5
-    )
+    html.H1("Média de tempo de operação"),
+    html.P(id='media-text', children=media_text),
+    html.P(id='media-text', children=media_total),
 ])
 
-@app.callback(
-    Output('graph', 'figure'),
-    [Input('slider', 'value')]
-)
-def update_graph(selected_value):    
-    figure = ... 
-    return figure
-
-
+# Execute o aplicativo
 if __name__ == '__main__':
     app.run_server(debug=True)
